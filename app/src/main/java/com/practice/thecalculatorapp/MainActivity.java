@@ -1,11 +1,9 @@
 package com.practice.thecalculatorapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 /*
     This class implements the button listeners and their actions.
@@ -39,24 +37,63 @@ public class MainActivity extends AppCompatActivity {
         1. Value Buttons
         2. Operation Buttons
      */
-    public void btnC(View view) {numberField.setText(""); numberProcessor = new NumberProcessor();}
-    public void btn7(View view) {numberProcessor.put(7); numberField.append("7");}
-    public void btn4(View view) {numberProcessor.put(4); numberField.append("4");}
-    public void btn1(View view) {numberProcessor.put(1); numberField.append("1");}
-    public void btn8(View view) {numberProcessor.put(8); numberField.append("8");}
-    public void btn5(View view) {numberProcessor.put(5); numberField.append("5");}
-    public void btn2(View view) {numberProcessor.put(2); numberField.append("2");}
-    public void btn0(View view) {numberProcessor.put(0); numberField.append("0");}
-    public void btn9(View view) {numberProcessor.put(9); numberField.append("9"); }
-    public void btn6(View view) {numberProcessor.put(6); numberField.append("6");}
-    public void btn3(View view) {numberProcessor.put(3); numberField.append("3");}
+    public void btnC(View view) {
+        numberField.setText("");
+        numberProcessor = new NumberProcessor();
+        currentNumberProcessor = numberProcessor;
+    }
+
+    public void btn7(View view) {
+        numberField.append("7");
+    }
+
+    public void btn4(View view) {
+        numberField.append("4");
+    }
+
+    public void btn1(View view) {
+        numberField.append("1");
+    }
+
+    public void btn8(View view) {
+        numberField.append("8");
+    }
+
+    public void btn5(View view) {
+        numberField.append("5");
+    }
+
+    public void btn2(View view) {
+        numberField.append("2");
+    }
+
+    public void btn0(View view) {
+        numberField.append("0");
+    }
+
+    public void btn9(View view) {
+        numberField.append("9");
+    }
+
+    public void btn6(View view) {
+        numberField.append("6");
+    }
+
+    public void btn3(View view) {
+        numberField.append("3");
+    }
 
     /*
         This method when called, reverses the sign of the numbers
      */
     public void btnSign(View view) {
-        if(numberProcessor.isNegative()) numberProcessor.setNegative(false);
-        else numberProcessor.setNegative(true);
+        if (numberProcessor.isNegative()) {
+            numberProcessor.setNegative(false);
+        }
+        else {
+            numberProcessor.setNegative(true);
+            numberField.setText(("-" + numberField.getText().toString()));
+        }
     }
 
     /*
@@ -68,13 +105,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /*
         This method when called, calculates the percentage of two numbers
      */
     public void btnPercent(View view) {
         //When the percent is clicked, clear the field
-        numberField.setText("");
+        String text = numberField.getText().toString();
+        numberProcessor = ConversionUtility.numberStringToProcessor(Integer.valueOf(text));
         operationSelector.selectPer();
         clearField();
     }
@@ -83,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
         Set the operation as divide
      */
     public void btnDivide(View view) {
-        numberField.setText("");
+        String text = numberField.getText().toString();
+        numberProcessor = ConversionUtility.numberStringToProcessor(Integer.valueOf(text));
         operationSelector.selectDiv();
         clearField();
     }
@@ -92,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
         Set the operation as mul
      */
     public void btnMUL(View view) {
-        numberField.setText("");
+        String text = numberField.getText().toString();
+        numberProcessor = ConversionUtility.numberStringToProcessor(Integer.valueOf(text));
         operationSelector.selectMul();
         clearField();
     }
@@ -101,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
         Set the operation as subtract
      */
     public void btnMINUS(View view) {
-        numberField.setText("");
+        String text = numberField.getText().toString();
+        numberProcessor = ConversionUtility.numberStringToProcessor(Integer.valueOf(text));
         operationSelector.selectSub();
         clearField();
     }
@@ -110,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
         Set the operation as plus
      */
     public void btnPLUS(View view) {
-        numberField.setText("");
+        String text = numberField.getText().toString();
+        numberProcessor = ConversionUtility.numberStringToProcessor(Integer.valueOf(text));
         operationSelector.selectAdd();
         clearField();
 
@@ -127,8 +168,7 @@ public class MainActivity extends AppCompatActivity {
         //Save the data from the current field
         currentNumberProcessor = numberProcessor;
 
-        //Clear the current data to make room for new data
-        numberProcessor = new NumberProcessor();
+
 
     }
 
@@ -142,28 +182,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /*
         The queued operation is done when the equal button is clicked
      */
     public void btnEQUAL(View view) {
+        currentNumberProcessor = ConversionUtility.numberStringToProcessor(Integer.valueOf(numberField.getText().toString()));
         //Get the operation
         String operationSelected = operationSelector.getOperationSelected();
-
-
-        switch (operationSelected){
+        int result = 0;
+        switch (operationSelected) {
             case "ADD":
-                int sum = numberProcessor.add(currentNumberProcessor);
-                numberField.setText(sum);
+                result = numberProcessor.add(currentNumberProcessor);
+
                 break;
 
-
             case "SUB":
-                //Get the second number
-
-                //Sub the second from the first number
-
-                //Show the results
+                //Get the second number and do the calculation
+                result = numberProcessor.sub(currentNumberProcessor);
                 break;
             case "DIV":
 
@@ -182,6 +217,12 @@ public class MainActivity extends AppCompatActivity {
                 //Do nothing
                 break;
         }
+        //Get the result in String
+        //Update the text field
+        numberField.setText(String.valueOf(result));
+        //Updating the current processor with new value
+        currentNumberProcessor = ConversionUtility.numberStringToProcessor(result);
+
 
     }
 }

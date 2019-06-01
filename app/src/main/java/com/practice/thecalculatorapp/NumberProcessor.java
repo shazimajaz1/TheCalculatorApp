@@ -102,7 +102,7 @@ public class NumberProcessor {
         Subtracts the number in the parameter from the number object that the method is being
         called on.
      */
-    private int sub(NumberProcessor numberProcessor2){
+    public int sub(NumberProcessor numberProcessor2){
         //Get the first number
         int number1 = decode(numbers);
 
@@ -120,7 +120,7 @@ public class NumberProcessor {
         Divides numbers 1 by number 2, where number 1 is the object on which divide is being
         called on and number 2 is the object passed as a parameter.
      */
-    private int divide(NumberProcessor numberProcessor2){
+    public int divide(NumberProcessor numberProcessor2){
         //Get the first number
         int number1 = decode(numbers);
 
@@ -143,7 +143,7 @@ public class NumberProcessor {
         Multiplies number1 by number2, where number1 is from the calling object and number2 is from
         the passed object
      */
-    private int multiply(NumberProcessor numberProcessor2){
+    public int multiply(NumberProcessor numberProcessor2){
         //Get both numbers
         int number1 = decode(numbers);
         int number2 = decode(numberProcessor2.get());
@@ -156,7 +156,7 @@ public class NumberProcessor {
        Percent operation: finds the percentage of the number.
        The number is in the original object and the percentage is in the passed object
      */
-    private int percentage(NumberProcessor numberProcessor2){
+    public int percentage(NumberProcessor numberProcessor2){
         //Decode both numbers
         int number1 = decode(numbers);
         int percentage = decode(numberProcessor2.get());
